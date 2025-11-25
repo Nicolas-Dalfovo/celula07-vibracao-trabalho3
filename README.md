@@ -2,7 +2,7 @@
 
 Este repositório contém a infraestrutura como código para o sistema de monitoramento de vibração da Célula 07. A solução utiliza Docker Compose para orquestrar os serviços necessários (Mosquitto, Node-RED, MongoDB e Mongo Express), facilitando o deploy e a execução do ambiente para receber e processar dados de um dispositivo físico.
 
-## 🚀 Visão Geral da Arquitetura
+## Visão Geral da Arquitetura
 
 O sistema é composto por quatro serviços containerizados que se comunicam em uma rede Docker privada:
 
@@ -22,14 +22,14 @@ graph TD
     G -- Acessa --> E;
 ```
 
-## 🛠️ Pré-requisitos
+## Pré-requisitos
 
 Para executar este projeto, você precisará ter os seguintes softwares instalados em sua máquina:
 
 - **Docker**
 - **Docker Compose**
 
-## ⚙️ Como Executar o Projeto
+## Como Executar o Projeto
 
 Siga os passos abaixo para configurar e executar o sistema completo.
 
@@ -76,7 +76,7 @@ Configure o seu dispositivo físico (ESP32/ESP8266) para publicar os dados no br
 
 O dispositivo deve publicar nos tópicos MQTT definidos na seção abaixo.
 
-## 🔧 Estrutura de Tópicos MQTT
+## Estrutura de Tópicos MQTT
 
 O sistema espera que o dispositivo físico publique os dados na seguinte estrutura de tópicos:
 
@@ -89,14 +89,14 @@ O sistema espera que o dispositivo físico publique os dados na seguinte estrutu
 
 O Node-RED também pode enviar comandos para o dispositivo através do tópico `.../cmd`.
 
-## 📄 Arquivos no Repositório
+## Arquivos no Repositório
 
 - `docker-compose.yml`: Arquivo de orquestração dos serviços Docker.
 - `flows_final.json`: O flow completo para ser importado no Node-RED.
 - `mosquitto.conf`: Arquivo de configuração para o broker Mosquitto.
 - `README.md`: Este arquivo de instruções.
 
-## 👨‍💻 Autores
+## Autores
 
 - **Nicolas Marquez Dalfovo**
 - **Gabriela da Silva de Liz**
