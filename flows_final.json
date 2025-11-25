@@ -1,0 +1,390 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Dashboard c07",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8eaf55464c13b510",
+        "type": "ui_tab",
+        "name": "C07-nicolas_gabriela",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "fe2c29ca6127db32",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "b3b047a578521e9c",
+        "type": "ui_group",
+        "name": "Cabeçalho",
+        "tab": "8eaf55464c13b510",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "422a756455aa1ead",
+        "type": "mqtt-broker",
+        "name": "broker",
+        "broker": "localhost",
+        "port": "1883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "9897b2304c038548",
+        "type": "mongodb",
+        "hostname": "localhost",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": 27017,
+        "db": "iot_celula07",
+        "name": "mongo-iot"
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "0b15e8aac2f65641",
+        "type": "ui_button",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "b3b047a578521e9c",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Status",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "fa-send",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 270,
+        "y": 200,
+        "wires": [
+            [
+                "c150f88b58347e7d"
+            ]
+        ]
+    },
+    {
+        "id": "c150f88b58347e7d",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Publica get_status",
+        "func": "msg.topic='iot/riodosul/si/BSN22025T26F8/cell/07/device/c07-nicolas_gabriela/cmd';\nmsg.payload={action:'get_status'};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 200,
+        "wires": [
+            [
+                "565e65f21e669711"
+            ]
+        ]
+    },
+    {
+        "id": "565e65f21e669711",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "cmd c07-nicolas_gabriela",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "422a756455aa1ead",
+        "x": 770,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "db32b8dd7b9ed919",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "telemetry c07-nicolas_gabriela",
+        "topic": "iot/riodosul/si/BSN22025T26F8/cell/07/device/c07-nicolas_gabriela/telemetry",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "422a756455aa1ead",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "bfcc5bc0b838c533"
+            ]
+        ]
+    },
+    {
+        "id": "bfcc5bc0b838c533",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "JSON>>obj (telemetry)",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 660,
+        "y": 260,
+        "wires": [
+            [
+                "3a0d2f451cbb91ad",
+                "419aa944094f2734"
+            ]
+        ]
+    },
+    {
+        "id": "3a0d2f451cbb91ad",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Metricas",
+        "func": "const p=msg.payload;\nreturn[\n    {payload:p.metrics?.vib_index}\n    ];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 260,
+        "wires": [
+            [
+                "20efc39fa1b733b2"
+            ]
+        ]
+    },
+    {
+        "id": "20efc39fa1b733b2",
+        "type": "ui_gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "b3b047a578521e9c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Vibração",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1020,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "419aa944094f2734",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Telemetry >> MongoDB",
+        "func": "const p=msg.payload || {};\nmsg.payload={ts:new Date((p.ts||Math.floor(Date.now()/1000))*1000),\n            cellId:p.cellid,\n            devId:p.devId,\n            status:p.status,\n            metrics:p.metrics,\n            units:p.units,\n            thresholds:p.thresholds,\n            _topic:msg.topic};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 320,
+        "wires": [
+            [
+                "b40f22184190dfdf",
+                "ddd7a44fa069a9b9"
+            ]
+        ]
+    },
+    {
+        "id": "b40f22184190dfdf",
+        "type": "mongodb out",
+        "z": "f6f2187d.f17ca8",
+        "mongodb": "9897b2304c038548",
+        "name": "Insert telemetry",
+        "collection": "telemetry",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "insert",
+        "x": 1140,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ddd7a44fa069a9b9",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "cb8541d83b0149de",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-node-mongodb": "0.2.5"
+        }
+    }
+]
