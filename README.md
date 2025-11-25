@@ -1,47 +1,33 @@
 # Sistema de Monitoramento de Vibração - Célula 07 (Trabalho 3)
 
-Este repositório contém o código-fonte e as instruções para executar o sistema de monitoramento de vibração desenvolvido para o Trabalho 03 da disciplina de IoT. O sistema utiliza um simulador de dispositivo em Python, um broker MQTT, Node-RED e MongoDB para criar uma solução completa de monitoramento.
+Este repositório contém a infraestrutura como código para o sistema de monitoramento de vibração da Célula 07. A solução utiliza Docker Compose para orquestrar os serviços necessários (Mosquitto, Node-RED, MongoDB e Mongo Express), facilitando o deploy e a execução do ambiente para receber e processar dados de um dispositivo físico.
 
 ## 🚀 Visão Geral da Arquitetura
 
-O sistema é composto por quatro componentes principais que se comunicam via MQTT:
+O sistema é composto por quatro serviços containerizados que se comunicam em uma rede Docker privada:
 
-1.  **Simulador do Dispositivo (`esp32_simulator.py`)**: Um script Python que simula um sensor de vibração da Célula 07. Ele publica dados de telemetria e responde a comandos.
-2.  **Broker MQTT (Mosquitto)**: O intermediário de mensagens que desacopla os produtores e consumidores de dados.
-3.  **Node-RED (`flows_final.json`)**: A plataforma de *low-code* que orquestra o fluxo de dados, processa as informações, armazena no banco de dados e alimenta o dashboard.
-4.  **MongoDB**: O banco de dados NoSQL utilizado para persistir os dados de telemetria e eventos.
+1.  **Mosquitto**: Broker MQTT que recebe os dados do dispositivo físico.
+2.  **Node-RED**: Plataforma de *low-code* que assina os tópicos MQTT, processa os dados, armazena no MongoDB e alimenta o dashboard.
+3.  **MongoDB**: Banco de dados NoSQL para persistir os dados de telemetria e eventos.
+4.  **Mongo Express**: Interface web para visualizar e gerenciar os dados no MongoDB.
 
 ```mermaid
 graph TD
-    A[Simulador ESP32] -- MQTT --> B(Broker Mosquitto);
+    A[Dispositivo Físico] -- MQTT --> B(Mosquitto);
     B -- MQTT --> C{Node-RED};
     C -- Salva dados --> D[(MongoDB)];
     C -- Atualiza UI --> E[Dashboard];
-    E -- Envia Comando --> C;
+    F[Mongo Express] -- Acessa --> D;
+    G[Usuário] -- Acessa --> F;
+    G -- Acessa --> E;
 ```
 
 ## 🛠️ Pré-requisitos
 
-Para executar este projeto, você precisará ter os seguintes softwares instalados em seu ambiente (recomenda-se um sistema baseado em Debian/Ubuntu):
+Para executar este projeto, você precisará ter os seguintes softwares instalados em sua máquina:
 
-- **Python 3.8+** e `pip`
-- **Mosquitto MQTT Broker**
-- **Node.js e Node-RED**
-- **MongoDB**
-
-Você pode instalar os serviços com os seguintes comandos:
-
-```bash
-# Instalar Mosquitto
-sudo apt-get update
-sudo apt-get install -y mosquitto mosquitto-clients
-
-# Instalar MongoDB
-sudo apt-get install -y mongodb
-
-# Instalar Node-RED (via npm)
-sudo npm install -g --unsafe-perm node-red
-```
+- **Docker**
+- **Docker Compose**
 
 ## ⚙️ Como Executar o Projeto
 
@@ -50,95 +36,64 @@ Siga os passos abaixo para configurar e executar o sistema completo.
 ### Passo 1: Clonar o Repositório
 
 ```bash
-git clone https://github.com/<SEU_USUARIO>/celula07-vibracao-trabalho3.git
+git clone https://github.com/Nicolas-Dalfovo/celula07-vibracao-trabalho3.git
 cd celula07-vibracao-trabalho3
 ```
 
-### Passo 2: Configurar o Ambiente Python
+### Passo 2: Iniciar os Serviços com Docker Compose
 
-É altamente recomendável usar um ambiente virtual para instalar as dependências Python.
-
-```bash
-# Criar e ativar o ambiente virtual
-python3 -m venv venv
-source venv/bin/activate
-
-# Instalar as dependências
-pip install -r requirements.txt
-```
-
-### Passo 3: Configurar e Iniciar os Serviços
-
-1.  **Mosquitto**: Copie o arquivo de configuração fornecido para o diretório do Mosquitto e reinicie o serviço.
-
-    ```bash
-    sudo cp mosquitto.conf /etc/mosquitto/conf.d/default.conf
-    sudo systemctl restart mosquitto
-    ```
-
-2.  **MongoDB**: Inicie o serviço do MongoDB.
-
-    ```bash
-    sudo systemctl start mongod
-    ```
-
-3.  **Node-RED**: Inicie o Node-RED. É recomendável executá-lo em um terminal separado ou em background.
-
-    ```bash
-    node-red
-    ```
-
-### Passo 4: Importar o Flow no Node-RED
-
-1.  Acesse a interface do Node-RED em seu navegador: `http://localhost:1880`.
-2.  Clique no menu no canto superior direito (☰) e selecione **Import**.
-3.  Clique em **select a file to import** e escolha o arquivo `flows_final.json` deste repositório.
-4.  Clique em **Import** e, em seguida, no botão vermelho **Deploy** no canto superior direito.
-
-Após o deploy, você deverá ver os nós MQTT com o status "connected".
-
-### Passo 5: Iniciar o Simulador do Dispositivo
-
-Com o ambiente virtual Python ativado, execute o script do simulador:
+Dentro do diretório do projeto, execute o seguinte comando para iniciar todos os serviços em background:
 
 ```bash
-python esp32_simulator.py
+docker-compose up -d
 ```
 
-Você deverá ver no terminal as mensagens de conexão MQTT e os dados de telemetria sendo publicados a cada 3 segundos.
+O Docker Compose irá baixar as imagens necessárias e iniciar os quatro containers. Para verificar se todos os serviços estão rodando, use o comando:
 
-### Passo 6: Acessar o Dashboard
+```bash
+docker-compose ps
+```
 
-Finalmente, acesse o dashboard para visualizar os dados em tempo real:
+### Passo 3: Acessar os Serviços
 
-- **URL**: `http://localhost:1880/ui`
+Após iniciar os containers, você pode acessar as interfaces web dos serviços:
 
-O dashboard exibirá:
-- Um **gauge** com o índice de vibração atual.
-- O **status** do dispositivo (Normal, Atenção ou Crítico).
-- Um **gráfico** com o histórico de vibração.
-- Uma **tabela** com os eventos recentes.
-- Botões para enviar **comandos** ao dispositivo.
+- **Node-RED**: `http://localhost:1880`
+  - O flow (`flows_final.json`) já estará importado e pronto para uso.
+
+- **Dashboard Node-RED**: `http://localhost:1880/ui`
+  - O dashboard começará a exibir os dados assim que o dispositivo físico começar a publicar no broker MQTT.
+
+- **Mongo Express**: `http://localhost:8081`
+  - Permite visualizar a database `iot_celula07` e as coleções `telemetry` e `events`.
+
+### Passo 4: Configurar o Dispositivo Físico
+
+Configure o seu dispositivo físico (ESP32/ESP8266) para publicar os dados no broker MQTT no seguinte endereço:
+
+- **Broker IP/Hostname**: O endereço IP da máquina que está rodando o Docker.
+- **Porta**: 1883
+
+O dispositivo deve publicar nos tópicos MQTT definidos na seção abaixo.
 
 ## 🔧 Estrutura de Tópicos MQTT
 
-O sistema utiliza uma estrutura de tópicos hierárquica para organizar as mensagens:
+O sistema espera que o dispositivo físico publique os dados na seguinte estrutura de tópicos:
 
 - **Tópico Base**: `iot/riodosul/si/BSN22025T26F8/cell/7/device/c07-nicolas_gabriela/`
 
 - **Tópicos Específicos**:
-  - `.../telemetry`: Para dados de telemetria (vib_index, status).
+  - `.../telemetry`: Para dados de telemetria (JSON com `vib_index`, `status`, etc.).
   - `.../event`: Para eventos importantes (mudança de status, alarmes).
   - `.../state`: Para o estado de conexão do dispositivo (online/offline).
-  - `.../cmd`: Para receber comandos do Node-RED.
-  - `.../config`: Para publicar a configuração atual do dispositivo.
+
+O Node-RED também pode enviar comandos para o dispositivo através do tópico `.../cmd`.
 
 ## 📄 Arquivos no Repositório
 
-- `esp32_simulator.py`: O código do simulador do dispositivo IoT.
+- `docker-compose.yml`: Arquivo de orquestração dos serviços Docker.
 - `flows_final.json`: O flow completo para ser importado no Node-RED.
 - `mosquitto.conf`: Arquivo de configuração para o broker Mosquitto.
-- `requirements.txt`: Dependências Python do projeto.
 - `README.md`: Este arquivo de instruções.
 
 ## 👨‍💻 Autores

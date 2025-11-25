@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - iot-net
+
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - iot-net
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+    depends_on:
+      - mongodb
+    networks:
+      - iot-net
+
+  node-red:
+    image: nodered/node-red:latest
+    container_name: node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      - node_red_data:/data
+      - ./flows_final.json:/data/flows.json
+    environment:
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - mosquitto
+      - mongodb
+    networks:
+      - iot-net
+
+networks:
+  iot-net:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  node_red_data:
